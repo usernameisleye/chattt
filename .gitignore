@@ -1,0 +1,11 @@
+# dependencies
+/node_modules
+.env
+.env/
+
+# debug
+yarn-debug.log*
+yarn-error.log*
+
+# typescript
+*.tsbuildinfo
