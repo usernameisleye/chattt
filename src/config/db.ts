@@ -1,21 +1,16 @@
 import mongoose from "mongoose"
-import { Application } from "express"
-import { dbUrl, port } from "./env"
+import { dbUrl } from "./env"
 
 const options = {
+    autoIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    autoIndex: true,
 }
 
-const connect = async (app: Application) => {
+const connect = async () => {
     try {
         await mongoose.connect(dbUrl, options)
-        app.listen(port, () => {
-            console.log("connected")
-        })
+        console.log("connected");
     }
     catch(error) {
         console.error(`connection error: ${error.message}`)
