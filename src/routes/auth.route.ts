@@ -5,6 +5,4 @@ const router = Router()
 
 // Sign in
 
-// Request reset password
-
-// Reset password
+// Signout
