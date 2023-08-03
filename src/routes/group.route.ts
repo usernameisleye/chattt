@@ -1,16 +1,27 @@
 import { Router } from "express"
+import auth from "../middlewares/auth.middleware"
+import GroupContoller from "../controllers/group.contoller"
+
 const router = Router()
 
-// Get groups
+// router.use(auth)
 
-// Create group
+router.get("/", GroupContoller.getGroups)
 
-// Join group
+router.get("/:id", GroupContoller.getGroup)
 
-// Update group(Pin or Archive)
+router.post("/", GroupContoller.createGroup)
 
-// Get group members
+router.patch("/join/:groupID/:userID", GroupContoller.joinGroup)
 
-// Get group member
+router.patch("/:id", GroupContoller.updateGroup)
 
-// Delete group member
+router.delete("/:id", GroupContoller.deleteGroup)
+
+router.get("/members/:groupID", GroupContoller.getMembers)
+
+router.get("/members/:groupID/:userID", GroupContoller.getMember)
+
+router.patch("/members/:groupID/:userID", GroupContoller.removeMember)
+
+export default router

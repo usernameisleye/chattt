@@ -6,7 +6,7 @@ interface Message {
     timestamps: Date
 }
 
-interface Group {
+export interface GroupInterface {
     name: string
     description: string
     members: Types.ObjectId[]
@@ -14,7 +14,7 @@ interface Group {
     pinned: boolean
 }
 
-const groupSchema = new Schema<Group>(
+const groupSchema = new Schema<GroupInterface>(
     {
         name: {
             type: Schema.Types.String,

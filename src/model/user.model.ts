@@ -1,5 +1,5 @@
 import { Schema, model, Types } from "mongoose"
-import { compare, hash } from "bcrypt"
+import bcrypt from "bcrypt"
 import { tokenInfo } from "../config/env"
 
 export interface UserInterface {
@@ -26,7 +26,10 @@ const userSchema = new Schema<UserInterface>(
             unique: true,
             required: true
         },
-        password: { type: Schema.Types.String },
+        password: { 
+            type: Schema.Types.String,
+            required: true
+        },
         profilePic: { 
             type: Schema.Types.String,
             trim: true
@@ -53,17 +56,11 @@ const userSchema = new Schema<UserInterface>(
 
 userSchema.pre("save", async function(next) {
     const { salt } = tokenInfo
-    if(this.isModified("password")) 
-    {
-        next()
-    }
+    if (!this.isModified("password")) return next()
 
-    this.password = await hash(this.password, Number(salt))
+    const hash = await bcrypt.hash(this.password, Number(salt))
+    this.password = hash
     next()
 })
-
-userSchema.methods.compare = async function(userpass: string) {
-    return await compare(userpass, this.password)
-}
 
 export default model("User", userSchema)

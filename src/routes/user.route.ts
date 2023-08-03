@@ -1,10 +1,14 @@
 import { Router } from "express"
+import UserController from "../controllers/user.controller"
+
 const router = Router()
 
-// Get users
+router.get("/", UserController.getUsers)
 
-// Get user
+router.get("/:id", UserController.getUser)
 
-// Delete user
+router.patch("/:id", UserController.updateUser)
 
-// Update user(Pin or Archive)
+router.delete("/:id", UserController.deleteUser)
+
+export default router

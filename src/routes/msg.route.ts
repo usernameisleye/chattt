@@ -1,12 +1,14 @@
 import { Router } from "express"
+import MessageController from "../controllers/msg.controller"
+
 const router = Router()
 
-// Get messages
+router.get("/", MessageController.getMessages)
 
-// Send message
+router.post("/", MessageController.sendMessage)
 
-// Edit message
+router.patch("/:id", MessageController.updateMessage)
 
-// Delete message
+router.delete("/:id", MessageController.deleteMesssage)
 
-// Update message(Pin message)
+export default router

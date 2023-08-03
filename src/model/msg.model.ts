@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose"
 
-interface Message {
+export interface MessageInterface {
     sender: Types.ObjectId
     reciever: Types.ObjectId
     content: string
@@ -8,7 +8,7 @@ interface Message {
     pinned: boolean
 }
 
-const msgSchema = new Schema<Message>(
+const msgSchema = new Schema<MessageInterface>(
     {
         sender: {
             type: Schema.Types.ObjectId,
