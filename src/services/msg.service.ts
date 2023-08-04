@@ -11,8 +11,8 @@ class MessageService {
     }
 
     async sendMessage(data) {
-        const { reciever, content } = data
-        if(!reciever && !content) throw new error("Error sending message")
+        const { reciever } = data
+        if(!reciever) throw new error("Error sending message")
         return await Message.create(data)
     }
 

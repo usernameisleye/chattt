@@ -17,8 +17,7 @@ const msgSchema = new Schema<MessageInterface>(
         },
         reciever: {
             type: Schema.Types.ObjectId,
-            ref: "User",
-            required: true
+            ref: "User"
         },
         content: {
             type: Schema.Types.String,

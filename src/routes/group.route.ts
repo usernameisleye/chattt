@@ -1,10 +1,7 @@
 import { Router } from "express"
-import auth from "../middlewares/auth.middleware"
 import GroupContoller from "../controllers/group.contoller"
 
 const router = Router()
-
-// router.use(auth)
 
 router.get("/", GroupContoller.getGroups)
 
@@ -17,6 +14,12 @@ router.patch("/join/:groupID/:userID", GroupContoller.joinGroup)
 router.patch("/:id", GroupContoller.updateGroup)
 
 router.delete("/:id", GroupContoller.deleteGroup)
+
+router.get("/messages/:id", GroupContoller.getMessages)
+
+router.post("/messages/:id", GroupContoller.sendMessage)
+
+router.delete("/messages/:groupID/:msgID", GroupContoller.deleteMessage)
 
 router.get("/members/:groupID", GroupContoller.getMembers)
 

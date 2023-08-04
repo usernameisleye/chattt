@@ -1,5 +1,6 @@
 import Group, { GroupInterface } from "../model/group.model"
 import User, { UserInterface } from "../model/user.model"
+import Message from "../model/msg.model"
 import error from "../utils/error"
 
 class GroupService {
@@ -60,6 +61,53 @@ class GroupService {
         return grp
     } 
 
+    async getMessages(id: string) {
+        const grp = await Group.findById(id).populate("messages", "sender content") 
+        this.checkGrp(grp)
+
+        const { messages } = grp
+        return messages
+    }
+
+    async sendMessage(id: string, data) {
+        const grp = await Group.findById(id)
+        this.checkGrp(grp)
+
+        const msg = await Message.create(data)
+        try {
+            const sent = await Group.findOneAndUpdate(
+                { _id: id },
+                { $push: { messages: msg._id } },
+                { new: true }
+            )
+
+            return sent
+        }
+        catch(err) {
+            throw new error("Error sending message")
+        }        
+    }
+
+    async deleteMessage(groupID: string, msgID: string) {
+        const grp = await Group.findById(groupID)
+        const msg = await Message.findById(msgID)
+        if(!grp && !msg) throw new error("Error occurred")
+
+        try {
+            const deleted = await Group.findOneAndUpdate(
+                { _id: groupID },
+                { $pull: { messages: msgID } },
+                { new: true }
+            )
+
+            const { messages } = deleted
+            return messages
+        }
+        catch(error) {
+            throw new error("Error deleting message")
+        }
+    }
+
     async getMembers(id: string) {
         const grp = await Group.findById(id).populate("members", "name") 
         this.checkGrp(grp)
@@ -86,8 +134,9 @@ class GroupService {
                 { $pull: { members: memberID } },
                 { new: true }
             )
-
-            return removed
+            
+            const { members } = removed
+            return members
         }
         catch(err) {
             throw new error("Error removing member")

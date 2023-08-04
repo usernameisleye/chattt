@@ -1,16 +1,11 @@
 import { Schema, model, Types } from "mongoose"
-
-interface Message {
-    sender: Types.ObjectId
-    content: string,
-    timestamps: Date
-}
+import { MessageInterface } from "./msg.model"
 
 export interface GroupInterface {
     name: string
     description: string
     members: Types.ObjectId[]
-    messages: Message[]
+    messages: MessageInterface[]
     pinned: boolean
 }
 
@@ -33,19 +28,8 @@ const groupSchema = new Schema<GroupInterface>(
         ],
         messages: [
             {
-                sender: {
-                    type: Schema.Types.ObjectId,
-                    ref: "User"
-                },
-                content: {
-                    type: Schema.Types.String,
-                    trim: true,
-                    required: true
-                },
-                timestamps: {
-                    type: Schema.Types.Date,
-                    default: Date.now
-                }
+                type: Schema.Types.ObjectId,
+                ref: "Message"
             }
         ]
     },

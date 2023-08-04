@@ -33,6 +33,21 @@ class GroupController {
         res.status(200).json(response.success("Group updated", r))
     }
 
+    async getMessages(req: Request, res: Response) {
+        const r = await GroupService.getMessages(req.params.id)
+        res.status(200).json(response.success("Success", r))
+    }
+
+    async sendMessage(req: Request, res: Response) {
+        const r = await GroupService.sendMessage(req.params.id, req.body)
+        res.status(201).json(response.success("Message sent", r))
+    }
+
+    async deleteMessage(req: Request, res: Response) {
+        const r = await GroupService.deleteMessage(req.params.groupID, req.params.msgID)
+        res.status(200).json(response.success("Message deleted", r))
+    }
+
     async getMembers(req: Request, res: Response) {
         const r = await GroupService.getMembers(req.params.groupID)
         res.status(200).json(response.success("Success", r))
